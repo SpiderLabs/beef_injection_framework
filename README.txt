@@ -11,11 +11,11 @@ INTRODUCTION
 These tools can be used with the BeEF Framework to easily execute
 MITM attacks. It includes the following tools:
 
-shank.rb 					Stateful ARP poisoner, L2 forwarder, Lover, JS injector
-autorun.rb  			Launches BeEF modules automatically based on events
-dump_mod_info.rb	Lists all modules available for use with autorun
-dump_results.rb 	Parses JSON variables produced by autorun.rb and queries
-									BeEF backend
+shank.rb           Stateful ARP poisoner, L2 forwarder, Lover, JS injector
+autorun.rb         Launches BeEF modules automatically based on events
+dump_mod_info.rb   Lists all modules available for use with autorun
+dump_results.rb    Parses JSON variables produced by autorun.rb and queries
+                   BeEF backend
 
 
 REQUIREMENTS
