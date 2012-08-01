@@ -1,5 +1,6 @@
 BeEF Injection Framework 
 Ryan Linn <rlinn@trustwave.com>
+Mike Ryan <mryan@trustwave.com>
 Steve Ocepek <socepek@trustwave.com>
 
 http://www.spiderlabs.com
@@ -56,7 +57,7 @@ COPYRIGHT
 =========
 
 BeEF Injection Framework
-Created by Ryan Linn and Steve Ocepek
+Created by Ryan Linn, Mike Ryan, and Steve Ocepek
 Copyright (C) 2012 Trustwave Holdings, Inc.
  
 This program is free software: you can redistribute it and/or modify
