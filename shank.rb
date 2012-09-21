@@ -352,8 +352,10 @@ http_thread = Thread.new do
 
       # Try to shrink things down a bit, whitespace-wize
       body_mod = body.gsub(/\s+/, " ")
+      body_mod.gsub!(/[\r\n]/m, "")
+      body_mod.gsub!(/<meta .*?>/i, "")
       # Remove spaces between tags.
-      body_mod.gsub!("> <", "><")
+      body_mod.gsub!(/>\s*</, "><")
       # Strip out comments.
       #body_mod.gsub!(/<!--.*?-->/, "")
 
